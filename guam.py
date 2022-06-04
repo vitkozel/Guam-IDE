@@ -2,7 +2,17 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.scrolledtext import ScrolledText
+from tkinter import messagebox as mb
 import subprocess
+import chardet
+import glob
+
+options_CHECK_FILE_CODING = 1
+options_DEFAULT_FILE_CODING = "utf-8"
+
+global session_FILE_CODING
+session_FILE_CODING = "utf-8"
+
 # create an instance for window
 window = Tk()
 # set title for window
@@ -19,11 +29,27 @@ file_path = ""
 def open_file(event=None):
     global code, file_path
     #code = editor.get(1.0, END)
-    open_path = askopenfilename(filetypes=[("Python File", "*.py"), ("Text File", "*.txt")])
+    open_path = askopenfilename(filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
     file_path = open_path
-    if file_path.endswith(".py"):
+
+    if file_path.endswith(".py" or ".vkode" or ".txt") == True:
+        print("Opening supported file")
         file_type = "python"
-    with open(open_path, "r") as file:
+    else:
+        print("Opening unsupported file")
+        mb.showwarning("File not supported", "This file type is not supported. Guam will try to open it without a debug system.")
+
+    if options_CHECK_FILE_CODING == 1:
+        for filename in glob.glob(file_path):
+            with open(filename, 'rb') as rawdata:
+                encoding_detect_result = chardet.detect(rawdata.read())
+            print(filename.ljust(45), encoding_detect_result['encoding'])
+        session_FILE_CODING = encoding_detect_result["encoding"]
+    else:
+        session_FILE_CODING = options_DEFAULT_FILE_CODING
+        print("Skipping file coding check, the file will be opened with " + options_DEFAULT_FILE_CODING)
+
+    with open(open_path, "r", encoding = session_FILE_CODING) as file:
         code = file.read()
         editor.delete(1.0, END)
         editor.insert(1.0, code)
@@ -127,7 +153,7 @@ def hide_statusbar():
         
 view_menu.add_checkbutton(label = "Status Bar" , onvalue = True, offvalue = 0,variable = show_status_bar , command = hide_statusbar)
 # create a label for status bar
-status_bars = ttk.Label(window,text = "www.codershubb.com \t\t\t\t\t\t characters: 0 words: 0")
+status_bars = ttk.Label(window,text = "Thanks for using Guam! \t\t\t\t\t\t characters: 0 words: 0")
 status_bars.pack(side = BOTTOM)
 # function to display count and word characters
 text_change = False
@@ -137,7 +163,7 @@ def change_word(event = None):
         text_change = True
         word = len(editor.get(1.0, "end-1c").split())
         chararcter = len(editor.get(1.0, "end-1c").replace(" ",""))
-        status_bars.config(text = f"www.codershubb.com \t\t\t\t\t\t characters: {chararcter} words: {word}")
+        status_bars.config(text = f"{session_FILE_CODING} \t\t\t\t\t\t characters: {chararcter} words: {word}")
     editor.edit_modified(False)
 editor.bind("<<Modified>>",change_word)
 # function for light mode window
