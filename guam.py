@@ -9,9 +9,17 @@ import glob
 
 options_CHECK_FILE_CODING = 1
 options_DEFAULT_FILE_CODING = "utf-8"
+options_DISPLAY_FONT_TYPEFACE = "consolas"
+options_DISPLAY_FONT_SIZE = "13"
+options_DISPLAY_FONT_FONTSTYLE = "Bold"
+options_DISPLAY_FONT_FONTFACE = options_DISPLAY_FONT_TYPEFACE + " " + options_DISPLAY_FONT_SIZE + " "
 
 global session_FILE_CODING
 session_FILE_CODING = "utf-8"
+global session_DEFAULT_EXTENSION
+session_DEFAULT_EXTENSION = ".txt"
+global session_FILE_TYPE
+session_FILE_TYPE = "Not set yet"
 
 # create an instance for window
 window = Tk()
@@ -21,7 +29,7 @@ window.title("Guam IDE")
 menu = Menu(window)
 window.config(menu=menu)
 # create editor window for writing code 
-editor = ScrolledText(window, font=("haveltica 10 bold"), wrap=None)
+editor = ScrolledText(window, font=(options_DISPLAY_FONT_FONTFACE), wrap=None)
 editor.pack(fill=BOTH, expand=1)
 editor.focus()
 file_path = ""
@@ -34,7 +42,8 @@ def open_file(event=None):
 
     if file_path.endswith(".py" or ".vkode" or ".txt") == True:
         print("Opening supported file")
-        file_type = "python"
+        session_FILE_TYPE = "python"
+        session_DEFAULT_EXTENSION = "." + session_FILE_TYPE
     else:
         print("Opening unsupported file")
         mb.showwarning("File not supported", "This file type is not supported. Guam will try to open it without a debug system.")
@@ -53,16 +62,17 @@ def open_file(event=None):
         code = file.read()
         editor.delete(1.0, END)
         editor.insert(1.0, code)
+        print("File {file_path} opened as {session_FILE_TYPE} with {session_FILE_TYPE}")
 window.bind("<Control-o>", open_file)
 # function to save files
 def save_file(event=None):
     global code, file_path
     if file_path == '':
-        save_path = asksaveasfilename(defaultextension = ".py", filetypes=[("Python File", "*.py")])
-        file_path =save_path
+        save_path = asksaveasfilename(defaultextension = session_DEFAULT_EXTENSION, filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
+        file_path = save_path
     else:
         save_path = file_path
-    with open(save_path, "w") as file:
+    with open(save_path, "w", encoding = session_FILE_CODING) as file:
         code = editor.get(1.0, END)
         file.write(code) 
 window.bind("<Control-s>", save_file)
@@ -70,9 +80,9 @@ window.bind("<Control-s>", save_file)
 def save_as(event=None):
     global code, file_path
     #code = editor.get(1.0, END)
-    save_path = asksaveasfilename(defaultextension = ".py", filetypes=[("Python File", "*.py")])
+    save_path = asksaveasfilename(defaultextension = session_DEFAULT_EXTENSION, filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
     file_path = save_path
-    with open(save_path, "w") as file:
+    with open(save_path, "w", encoding = session_FILE_CODING) as file:
         code = editor.get(1.0, END)
         file.write(code) 
 window.bind("<Control-S>", save_as)
