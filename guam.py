@@ -18,7 +18,6 @@ options_DISPLAY_FONT_FONTSTYLE = "Bold"
 options_DISPLAY_FONT_FONTFACE = options_DISPLAY_FONT_TYPEFACE + " " + options_DISPLAY_FONT_SIZE + " "
 options_DISPLAY_DEBUG_SIZE = 6
 
-
 global session_FILE_CODING
 session_FILE_CODING = "utf-8"
 global session_DEFAULT_EXTENSION
@@ -31,12 +30,19 @@ global session_FILE_RUN_SUPPORT
 session_FILE_RUN_SUPPORT = 0
 global session_OUTPUT_WINDOW
 session_OUTPUT_WINDOW = 0
+session_DIRECTORY_THISFILE = __file__
+session_DIRECTORY_THISFOLDER = session_DIRECTORY_THISFILE[:-7]
+
 
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
+others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + "pigeon.ico"
 
 # create an instance for window
 window = Tk()
+window.iconbitmap(others_ICON_LOCATION)
+print(session_DIRECTORY_THISFOLDER)
+print(others_ICON_LOCATION)
 
 # set title for window
 window.title("Guam IDE")
