@@ -9,6 +9,8 @@ import subprocess
 import chardet
 import glob
 
+from numpy import character
+
 
 options_CHECK_FILE_CODING = 1
 options_DEFAULT_FILE_CODING = "utf-8"
@@ -31,8 +33,10 @@ session_FILE_RUN_SUPPORT = 0
 global session_OUTPUT_WINDOW
 session_OUTPUT_WINDOW = 0
 session_DIRECTORY_THISFILE = __file__
+global session_DIRECTORY_THISFOLDER
 session_DIRECTORY_THISFOLDER = session_DIRECTORY_THISFILE[:-7]
-
+global session_CURRENT_LEFT_STATUS
+session_CURRENT_LEFT_STATUS = "Not saved yet!"
 
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
@@ -62,10 +66,31 @@ move_tab = font.measure(others_TAB_VALUE)
 editor.config(tabs = move_tab)
 file_path = ""
 
+# called when saving/opening a file to change the status bar
+def side_file_operation(side_operation_type):
+    global session_FILE_TYPE_DISPLAY
+    global session_CURRENT_LEFT_STATUS
+    global chararcter
+    global word
+
+    check_file_type()
+
+    session_CURRENT_LEFT_STATUS = session_FILE_TYPE_DISPLAY + "; " + session_FILE_CODING
+    special_left_status = session_CURRENT_LEFT_STATUS
+    if side_operation_type == "save" or "saveas":
+        special_left_status = session_CURRENT_LEFT_STATUS + " SAVED"     
+    status_bars.config(text = f"{special_left_status} \t\t\t\t\t\t characters: {chararcter} words: {word}")
+
 # function to open files
 def open_file(event=None):
     global code, file_path
     global session_FILE_TYPE
+    global session_FILE_RUN_SUPPORT
+    global session_DEFAULT_EXTENSION
+    global session_FILE_TYPE_DISPLAY
+    global options_CHECK_FILE_CODING
+    global session_FILE_CODING
+
     #code = editor.get(1.0, END)
     open_path = askopenfilename(filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
     if open_path == "":
@@ -73,25 +98,7 @@ def open_file(event=None):
     file_path = open_path
 
     # checks if is the opening file supported
-    if file_path.endswith(".py") or file_path.endswith(".vkode"):
-        print("Opening supported file")
-        if file_path.endswith(".py"):
-            session_FILE_TYPE = "python"
-            session_FILE_TYPE_DISPLAY = "Python script"
-        elif file_path.endswith(".vkode"):
-            session_FILE_TYPE = "vkode"
-            session_FILE_TYPE_DISPLAY = "VKode script"
-        session_DEFAULT_EXTENSION = "." + session_FILE_TYPE
-        session_FILE_RUN_SUPPORT = 1
-        try_hide_debug()
-        force_show_debug()
-    elif file_path.endswith(".txt"): # if file is txt
-        print("Opening file without debug support")
-        try_hide_debug()
-    else:
-        print("Opening unsupported file")
-        try_hide_debug()
-        mb.showwarning("File not supported", "This file type is not supported. Guam will try to open it without a debug system.")
+    check_file_type()
 
     # checks file coding
     if options_CHECK_FILE_CODING == 1:
@@ -110,6 +117,7 @@ def open_file(event=None):
         editor.delete(1.0, END)
         editor.insert(1.0, code)
         window.bind("<Control-o>", open_file)
+    side_file_operation("open")
 
 # function to save files
 def save_file(event=None):
@@ -121,7 +129,8 @@ def save_file(event=None):
         save_path = file_path
     with open(save_path, "w", encoding = session_FILE_CODING) as file:
         code = editor.get(1.0, END)
-        file.write(code) 
+        file.write(code)
+    side_file_operation("save")
 window.bind("<Control-s>", save_file)
 
 # function to save files as specific name 
@@ -132,7 +141,8 @@ def save_as(event=None):
     file_path = save_path
     with open(save_path, "w", encoding = session_FILE_CODING) as file:
         code = editor.get(1.0, END)
-        file.write(code) 
+        file.write(code)
+    side_file_operation("saveas")
 window.bind("<Control-S>", save_as)
 
 # function to execute the code and display its output
@@ -252,12 +262,15 @@ status_bars.pack(side = BOTTOM)
 text_change = False
 def change_word(event = None):
     global text_change
-    global session_FILE_CODING
+    global session_CURRENT_LEFT_STATUS
+    global chararcter
+    global word
+
     if editor.edit_modified():
         text_change = True
         word = len(editor.get(1.0, "end-1c").split())
-        chararcter = len(editor.get(1.0, "end-1c").replace(" ",""))
-        status_bars.config(text = f"{session_FILE_CODING} \t\t\t\t\t\t characters: {chararcter} words: {word}")
+        chararcter = len(editor.get(1.0, "end-1c"))
+        status_bars.config(text = f"{session_CURRENT_LEFT_STATUS} \t\t\t\t\t\t characters: {chararcter} words: {word}")
     editor.edit_modified(False)
 editor.bind("<<Modified>>",change_word)
 
@@ -279,6 +292,7 @@ theme_menu.add_command(label="dark", command=dark)
 if session_FILE_RUN_SUPPORT == 1:
     output_window = ScrolledText(window, height = options_DISPLAY_DEBUG_SIZE)
     output_window.pack(fill = BOTH, expand = 1)
+
 # alternative way (when called)
 def force_show_debug():
     global output_window
@@ -286,6 +300,7 @@ def force_show_debug():
     output_window = ScrolledText(window, height = options_DISPLAY_DEBUG_SIZE)
     output_window.pack(fill = BOTH, expand = 1)
     session_OUTPUT_WINDOW = 1
+
 # hide the output window
 def try_hide_debug():
     global output_window
@@ -296,5 +311,36 @@ def try_hide_debug():
     elif session_OUTPUT_WINDOW == 0:
         print("Output box already hidden.")
     
+def check_file_type():
+    global code, file_path
+    global session_FILE_TYPE
+    global session_FILE_RUN_SUPPORT
+    global session_DEFAULT_EXTENSION
+    global session_FILE_TYPE_DISPLAY
+    global options_CHECK_FILE_CODING
+    global session_FILE_CODING
+
+    if file_path.endswith(".py") or file_path.endswith(".vkode"):
+        print("Opening supported file")
+        if file_path.endswith(".py"):
+            session_FILE_TYPE = "python"
+            session_FILE_TYPE_DISPLAY = "Python script"
+        elif file_path.endswith(".vkode"):
+            session_FILE_TYPE = "vkode"
+            session_FILE_TYPE_DISPLAY = "VKode script"
+        session_DEFAULT_EXTENSION = "." + session_FILE_TYPE
+        session_FILE_RUN_SUPPORT = 1
+        try_hide_debug()
+        force_show_debug()
+    elif file_path.endswith(".txt"): # if file is txt
+        print("Opening file without debug support")
+        session_FILE_TYPE_DISPLAY = "TXT Plain text file"
+        try_hide_debug()
+    else:
+        print("Opening unsupported file")
+        session_FILE_TYPE_DISPLAY = "UNSUPPORTED FILE"
+        try_hide_debug()
+        mb.showwarning("File not supported", "This file type is not supported. Guam will try to open it without a debug system.")
+
 
 window.mainloop()
