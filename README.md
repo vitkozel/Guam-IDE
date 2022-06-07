@@ -1,8 +1,8 @@
 # Repository Hierarchy
 
 `Guam/` – The main Guam folder<br>
-`ι Builds/` – History of all public builds<br>
-`ι Others/` – Other files<br>
+`ι Builds/` – History of all public builds*<br>
+`ι Others/` – Other files*<br>
 
 <sub>*These folders are not contained in final builds.</sub>
 
