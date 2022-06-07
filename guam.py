@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import font
+import tkinter
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.scrolledtext import ScrolledText
 from tkinter import messagebox as mb
@@ -8,6 +9,7 @@ import tkinter.font as tkfont
 import subprocess
 import chardet
 import glob
+from imageio import save
 
 from numpy import character
 
@@ -37,6 +39,8 @@ global session_DIRECTORY_THISFOLDER
 session_DIRECTORY_THISFOLDER = session_DIRECTORY_THISFILE[:-7]
 global session_CURRENT_LEFT_STATUS
 session_CURRENT_LEFT_STATUS = "Not saved yet!"
+global session_IS_SAVED
+session_IS_SAVED = True
 
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
@@ -72,8 +76,10 @@ def side_file_operation(side_operation_type):
     global session_CURRENT_LEFT_STATUS
     global chararcter
     global word
+    global session_IS_SAVED
 
     check_file_type()
+    session_IS_SAVED = True
 
     session_CURRENT_LEFT_STATUS = session_FILE_TYPE_DISPLAY + "; " + session_FILE_CODING
     special_left_status = session_CURRENT_LEFT_STATUS
@@ -116,8 +122,9 @@ def open_file(event=None):
         code = file.read()
         editor.delete(1.0, END)
         editor.insert(1.0, code)
-        window.bind("<Control-o>", open_file)
+        
     side_file_operation("open")
+window.bind("<Control-o>", open_file)
 
 # function to save files
 def save_file(event=None):
@@ -197,8 +204,22 @@ if 1 == 1:
 
 # function to close IDE window
 def close(event=None):
-    window.destroy()
-window.bind("<Control-q>", close)
+    global session_IS_SAVED
+
+    if session_IS_SAVED == True:
+        window.destroy()
+    else:
+        move_window = mb.askyesnocancel(title="File not saved", message="Do you want to save this file before exiting?")
+        if move_window == True:
+            print("Saving before exiting")
+            save_file()
+            window.destroy()
+        elif move_window == False:
+            window.destroy()
+        else:
+            return
+
+window.bind("<Control-w>", close)
 
 # define function to cut the selected text
 def cut_text(event=None):
@@ -232,7 +253,7 @@ file_menu.add_separator()
 file_menu.add_command(label="Save", accelerator="Ctrl+S", command=save_file)
 file_menu.add_command(label="Save As", accelerator="Ctrl+Shift+S", command=save_as)
 file_menu.add_separator()
-file_menu.add_command(label="Exit", accelerator="Ctrl+Q", command=close)
+file_menu.add_command(label="Exit", accelerator="Ctrl+W", command=close)
 
 # add commands in edit menu
 edit_menu.add_command(label="Cut", command=cut_text) 
@@ -265,12 +286,14 @@ def change_word(event = None):
     global session_CURRENT_LEFT_STATUS
     global chararcter
     global word
+    global session_IS_SAVED
 
     if editor.edit_modified():
         text_change = True
         word = len(editor.get(1.0, "end-1c").split())
         chararcter = len(editor.get(1.0, "end-1c"))
         status_bars.config(text = f"{session_CURRENT_LEFT_STATUS} \t\t\t\t\t\t characters: {chararcter} words: {word}")
+        session_IS_SAVED = False
     editor.edit_modified(False)
 editor.bind("<<Modified>>",change_word)
 
