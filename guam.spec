@@ -8,7 +8,7 @@ a = Analysis(
     ['C:/Users/vitek/Documents/eide/guam.py'],
     pathex=[],
     binaries=[],
-    datas=[('C:/Users/vitek/Documents/eide/pigeon.ico', '.')],
+    datas=[('C:/Users/vitek/Documents/eide/pigeon.ico', '.'), ('C:/Users/vitek/Documents/eide/preferences.yml', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
