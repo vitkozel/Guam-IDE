@@ -67,6 +67,8 @@ def open_file(event=None):
     global session_FILE_TYPE
     #code = editor.get(1.0, END)
     open_path = askopenfilename(filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
+    if open_path == "":
+        return
     file_path = open_path
 
     # checks if is the opening file supported
@@ -80,6 +82,7 @@ def open_file(event=None):
             session_FILE_TYPE_DISPLAY = "VKode script"
         session_DEFAULT_EXTENSION = "." + session_FILE_TYPE
         session_FILE_RUN_SUPPORT = 1
+        try_hide_debug()
         force_show_debug()
     elif file_path.endswith(".txt"):
         print("Opening file without debug support")
@@ -98,7 +101,7 @@ def open_file(event=None):
         session_FILE_CODING = encoding_detect_result["encoding"]
     else:
         session_FILE_CODING = options_DEFAULT_FILE_CODING
-        print("Skipping file coding check, the file will be opened with " + options_DEFAULT_FILE_CODING)
+        print("Skipping file coding check, the file will be opened with " + options_DEFAULT_FILE_CODING)    
 
     # finally opens the file
     with open(open_path, "r", encoding = session_FILE_CODING) as file:
