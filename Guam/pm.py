@@ -7,11 +7,14 @@ import os
 clear = lambda: os.system('cls')
 from os.path import exists
 import yaml
+import requests
 
 list_of_arguments = sys.argv
 
 pm_location = __file__[:-5]
+temp_location = pm_location + "temp/"
 yml_location = pm_location + "version.yml"
+
 does_yaml_exist = exists(yml_location)
 
 # load YAML
@@ -46,8 +49,10 @@ def print_error(error):
 # TASKS:
 
 # Update task
-def task_update():
+def task_update(command):
     print("Updating Guam!")
+
+    command_raw = command[3:]        
 
     if does_yaml_exist == False:
         print_error("version.yaml not found; you may have to reinstall Guam or download version.yaml from Git (command: 'gh')")
@@ -58,9 +63,22 @@ def task_update():
 
     print("Current version:", local_build, local_version, local_distribution)
 
+    index_location = temp_location + "build_index.yml"
+    response = requests.get("https://raw.githubusercontent.com/vitkozel/Guam-IDE/master/%CE%B9%20Builds/build_idnex.yaml")
+    open(index_location, "wb").write(response.content)
     
+    with open(index_location) as file:
+        index_content = yaml.load(file, Loader=yaml.FullLoader)
 
-    print()
+    if command_raw != "":
+        with open(index_location, 'w') as file:
+            doc = yaml.dump()
+
+    update_version = index_content["latest_build"]
+
+    print("Updating to " + update_version)
+
+
 
 
 # Catching arguments
@@ -82,8 +100,8 @@ def terminal():
     terminal_input_toggle = True
 
 def execute(command):
-    if command == "up":
-        task_update()
+    if "up" in command:
+        task_update(command)
 
 
 

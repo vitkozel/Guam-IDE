@@ -1,3 +1,17 @@
 # This file is used when updating Guam via Package Manager.
 
-latest_build: "Alpha 0.00.003a"
+
+
+# Last update (dd/mm/yyyy, the normal format)
+updated: "07/06/2022"
+
+# Latest version:
+latest_version: "Alpha 0.00.003a"
+
+# Update-to version (for local use):
+update_to: ""
+
+
+# HISTORY
+# build, version
+4: "Alpha 0.00.003a"
