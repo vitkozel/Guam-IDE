@@ -36,7 +36,8 @@ session_DIRECTORY_THISFOLDER = session_DIRECTORY_THISFILE[:-7]
 
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
-others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + "pigeon.ico"
+others_ICON_LOCATION_FILE = "pigeon.ico"
+others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + others_ICON_LOCATION_FILE
 
 # create an instance for window
 window = Tk()
@@ -84,7 +85,7 @@ def open_file(event=None):
         session_FILE_RUN_SUPPORT = 1
         try_hide_debug()
         force_show_debug()
-    elif file_path.endswith(".txt"):
+    elif file_path.endswith(".txt"): # if file is txt
         print("Opening file without debug support")
         try_hide_debug()
     else:

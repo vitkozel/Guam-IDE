@@ -1,0 +1,39 @@
+# Guam IDE preferences YAML file.
+# Use this file or built-in Preferences feature to customize your Guam
+
+
+# options_CHECK_FILE_CODING (defalut on 1)
+# Enable/disable checking file coding while opening a file.
+CHECK_FILE_CODING: 1
+
+# options_DEFAULT_FILE_CODING (default on "utf-8")
+# Default file coding that will be used when CHECK_FILE_CODING is on 0.
+DEFAULT_FILE_CODING: "utf-8"
+
+# options_DISPLAY_FONT_TYPEFACE
+# Default display font that will be used in IDE.
+DISPLAY_FONT_TYPEFACE: "consolas"
+
+# options_DISPLAY_FONT_SIZE
+# Size of text that will be used in the IDE. The value has to be in string, not integer!
+DISPLAY_FONT_SIZE: "13"
+
+# options_DISPLAY_DEBUG_SIZE (Default on 6)
+# Size of debug console box in the bottom of window.
+DISPLAY_DEBUG_SIZE: 6
+
+
+
+
+# OTHER SETTINGS
+# Please be careful when changing these values. Some of these changes may not apply as they are limited to Python source code only.
+
+
+# others_DEBUG_MESSAGE_PREFIX (default on "GUAM: ")
+others_DEBUG_MESSAGE_PREFIX: "GUAM: "
+
+# others_TAB_VALUE (default on "   ")
+others_TAB_VALUE: "   "
+
+# others_ICON_LOCATION_FILE (Default on "pigeon.ico")
+others_ICON_LOCATION_FILE: "pigeon.ico"
