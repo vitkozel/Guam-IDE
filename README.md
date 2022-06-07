@@ -14,4 +14,4 @@ All Guam's core code is in the `Guam/` folder. You can't find the whole package 
 If you want to just download any of the old builds, you can do so by visiting the `ι Builds/` folder.<br>
 The last folder is `ι Others/` that contains random stuff (not necessarily Guam-related tho).
 
-Please be aware that Guam is under the [MIT License](https://github.com/vitkozel/Guam-IDE/blob/master/license)
+Please be aware that Guam is under the [MIT License](https://github.com/vitkozel/Guam-IDE/blob/master/license).
