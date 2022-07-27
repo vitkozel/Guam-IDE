@@ -77,6 +77,9 @@ def side_file_operation(side_operation_type):
     global chararcter
     global word
     global session_IS_SAVED
+    global file_path
+    global file_file
+    global file_filename
 
     check_file_type()
     session_IS_SAVED = True
@@ -85,7 +88,12 @@ def side_file_operation(side_operation_type):
     special_left_status = session_CURRENT_LEFT_STATUS
     if side_operation_type == "save" or "saveas":
         special_left_status = session_CURRENT_LEFT_STATUS + " SAVED"     
-    status_bars.config(text = f"{special_left_status} \t\t\t\t\t\t characters: {chararcter} words: {word}")
+    #status_bars.config(text = f"{special_left_status} \t\t\t\t\t\t characters: {chararcter} words: {word}")
+    file_file = file_path.split("/")
+    print(file_file)
+    file_filename = file_file[len(file_file) - 1]
+    print(file_filename)
+    window.title(file_filename + " - Guam IDE")
 
 # function to open files
 def open_file(event=None):
@@ -96,6 +104,7 @@ def open_file(event=None):
     global session_FILE_TYPE_DISPLAY
     global options_CHECK_FILE_CODING
     global session_FILE_CODING
+    global file_path
 
     #code = editor.get(1.0, END)
     open_path = askopenfilename(filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
