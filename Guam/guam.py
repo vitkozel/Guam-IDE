@@ -49,7 +49,7 @@ others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + others_ICON_LOCATION_FILE
 
 # create an instance for window
 window = Tk()
-window.iconbitmap(others_ICON_LOCATION)
+#window.iconbitmap(others_ICON_LOCATION)
 print(session_DIRECTORY_THISFOLDER)
 print(others_ICON_LOCATION)
 
