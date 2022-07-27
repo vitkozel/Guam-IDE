@@ -118,7 +118,7 @@ def side_file_operation(side_operation_type):
     special_left_status = session_CURRENT_LEFT_STATUS
     if side_operation_type == "save" or "saveas":
         special_left_status = session_CURRENT_LEFT_STATUS + " SAVED"     
-    #status_bars.config(text = f"{special_left_status} \t\t\t\t\t\t characters: {chararcter} words: {word}")    
+    status_bars.config(text = f"{special_left_status} \t\t\t\t\t\t characters: {chararcter} words: {word}")    
    
     session_IS_SAVED = True
     window.title(file_filename + " - Guam IDE")
