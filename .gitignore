@@ -3,3 +3,7 @@ Guam/__pycache__/
 Package Manager/__pycache__/
 skala.txt
 issue.txt
+.PACKAGE/Guam/
+.PACKAGE/build/
+.PACKAGE/dist/
+.PACKAGE/guam.spec
