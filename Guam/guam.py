@@ -11,8 +11,11 @@ import chardet
 import glob
 from imageio import save
 import platform
-
+from os.path import exists
+import datetime
+import webbrowser
 from numpy import character
+import os
 
 
 options_CHECK_FILE_CODING = 1
@@ -48,6 +51,7 @@ others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
 others_ICON_LOCATION_FILE = "pigeon.ico"
 others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + others_ICON_LOCATION_FILE
+others_ISSUES_FILE_LOCATION = session_DIRECTORY_THISFOLDER + "issues.txt"
 
 # create an instance for window
 window = Tk()
@@ -178,7 +182,7 @@ if 1 == 1:
         global code, file_path
         output_window.insert(1.0, others_DEBUG_MESSAGE_PREFIX + "Checking file, please wait")
 
-        print(session_FILE_TYPE)
+        print("Running " + session_FILE_TYPE)
 
         # checks if the file is supported
         if session_FILE_RUN_SUPPORT == 1:
@@ -381,9 +385,9 @@ def check_file_type(file_filename):
             session_FILE_TYPE_DISPLAY = "TXT Plain text file"
             session_FILE_RUN_SUPPORT = 0
         case _:
-            session_FILE_TYPE = "unknown"
+            session_FILE_TYPE = "unsupported"
             session_FILE_TYPE_DISPLAY = "Unsupported file type"
-            window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.")
+            window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", True)
 
     try_hide_debug()
     if session_FILE_RUN_SUPPORT == 1:
@@ -393,9 +397,29 @@ def check_file_type(file_filename):
 
     print("check_file_type results:\n session_FILE_TYPE: " + session_FILE_TYPE + "\n session_FILE_TYPE_DISPLAY: " + session_FILE_TYPE_DISPLAY + "\n session_FILE_RUN_SUPPORT: " + str(session_FILE_RUN_SUPPORT) + "\n session_DEFAULT_EXTENSION: " + session_DEFAULT_EXTENSION + "\n session_FILE_CODING: " + session_FILE_CODING)
 
-def window_error(title, message): # function to display error windows
+def window_error(title, message, openIssues): # function to display error windows
     print("WARNING: " + title + ":\n " + message)
-    return mb.showerror(title, message)
+    mb.showerror(title, message)
 
+    if openIssues:
+        print("Opening issues window")
+
+        if exists(others_ISSUES_FILE_LOCATION) == False:
+            print("Creating issues file")
+            isseFile = open(others_ISSUES_FILE_LOCATION, "w")
+            isseFile.write("Guam for " + session_PLATFORM + "\nThis file location: " + others_ISSUES_FILE_LOCATION + "\n\n\n")
+            isseFile.close()
+        
+        isseFile = open(others_ISSUES_FILE_LOCATION, "a")
+        isseFile.write("Bug ocurred at: " + str(datetime.datetime.now()) + "\n " + title + ":\n " + message + "\n " + session_FILE_TYPE + "\n " + session_FILE_TYPE_DISPLAY + "\n " + str(session_FILE_RUN_SUPPORT) + "\n " + session_DEFAULT_EXTENSION + "\n " + session_FILE_CODING + "\n\n")
+        isseFile.close()
+
+        if mb.askyesno('Please report issue', 'Bug report was saved to /issues.txt\nDo you wish to report this bug to the developer?', icon='question'):
+            print("Reporting issue")
+            webbrowser.open("https://github.com/vitkozel/Guam-IDE/issues", new=1, autoraise=True)
+            if session_PLATFORM == "Windows":
+                os.startfile(session_DIRECTORY_THISFOLDER)
+            elif session_PLATFORM == "Linux":
+                subprocess.call(('xdg-open ', others_ISSUES_FILE_LOCATION))
 
 window.mainloop()

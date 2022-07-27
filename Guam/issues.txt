@@ -1,0 +1,40 @@
+Guam for Windows
+This file location: C:\Users\vitek\Documents\Guam-IDE\Guam\issues.txt
+
+
+Bug ocurred at: 2022-07-27 22:08:26.503581
+ File not supported:
+ This file type is not supported. Guam will try to open it without a debug system.
+ unsupported
+ Unsupported file type
+ 0
+ .txt
+ utf-8
+
+Bug ocurred at: 2022-07-27 22:10:28.006011
+ File not supported:
+ This file type is not supported. Guam will try to open it without a debug system.
+ unsupported
+ Unsupported file type
+ 0
+ .txt
+ utf-8
+
+Bug ocurred at: 2022-07-27 22:11:26.755183
+ File not supported:
+ This file type is not supported. Guam will try to open it without a debug system.
+ unsupported
+ Unsupported file type
+ 0
+ .txt
+ utf-8
+
+Bug ocurred at: 2022-07-27 22:11:32.012031
+ File not supported:
+ This file type is not supported. Guam will try to open it without a debug system.
+ unsupported
+ Unsupported file type
+ 0
+ .txt
+ utf-8
+
