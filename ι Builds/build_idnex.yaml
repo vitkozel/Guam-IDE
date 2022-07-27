@@ -3,15 +3,15 @@
 
 
 # Last update (dd/mm/yyyy, the normal format)
-updated: "07/06/2022"
+updated: "27/07/2022"
 
-# Latest version:
-latest_version: "Alpha 0.00.003a"
-
-# Update-to version (for local use):
-update_to: ""
-
+# Latest build:
+latest_build: 5
 
 # HISTORY
 # build, version
 4: "Alpha 0.00.003a"
+5: "Alpha 0.00.005a"
+
+# Update-to version (for local use):
+update_to: ""

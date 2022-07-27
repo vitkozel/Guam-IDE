@@ -7,3 +7,4 @@ issue.txt
 .PACKAGE/build/
 .PACKAGE/dist/
 .PACKAGE/guam.spec
+Guam/guam.spec

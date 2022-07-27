@@ -57,6 +57,7 @@ others_ISSUES_FILE_LOCATION = session_DIRECTORY_THISFOLDER + "issues.txt"
 window = Tk()
 if session_PLATFORM == "Windows": # if windows, set the window icon
     window.iconbitmap(others_ICON_LOCATION)
+    print(":tf:")
 else:
     print("Skipping icon, the program will run without an icon (OS compatibility issues")
 print(session_DIRECTORY_THISFOLDER)
