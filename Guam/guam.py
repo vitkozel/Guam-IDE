@@ -10,6 +10,7 @@ import subprocess
 import chardet
 import glob
 from imageio import save
+import platform
 
 from numpy import character
 
@@ -41,6 +42,7 @@ global session_CURRENT_LEFT_STATUS
 session_CURRENT_LEFT_STATUS = "Not saved yet!"
 global session_IS_SAVED
 session_IS_SAVED = True
+session_PLATFORM = platform.system()
 
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
@@ -49,7 +51,10 @@ others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + others_ICON_LOCATION_FILE
 
 # create an instance for window
 window = Tk()
-#window.iconbitmap(others_ICON_LOCATION)
+if session_PLATFORM == "Windows": # if windows, set the window icon
+    window.iconbitmap(others_ICON_LOCATION)
+else:
+    print("Skipping icon, the program will run without an icon (OS compatibility issues")
 print(session_DIRECTORY_THISFOLDER)
 print(others_ICON_LOCATION)
 
