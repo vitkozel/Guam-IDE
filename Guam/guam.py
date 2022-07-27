@@ -223,8 +223,10 @@ def close(event=None):
             print("Saving before exiting")
             save_file()
             window.destroy()
+            exit(0)
         elif move_window == False:
             window.destroy()
+            exit(0)
         else:
             return
 
