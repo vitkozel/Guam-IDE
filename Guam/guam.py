@@ -54,7 +54,7 @@ session_PYTHO_VERSION = sys.version_info[0]
 # Other variables
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
-others_ICON_LOCATION_FILE = "pigeon.ico"
+others_ICON_LOCATION_FILE = "pigeon.png"
 others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + others_ICON_LOCATION_FILE
 others_ISSUES_FILE_LOCATION = session_DIRECTORY_THISFOLDER + "issues.txt"
 
@@ -382,7 +382,7 @@ def check_file_type(file_filename):
 
     # COMPAIBILITY ISSUE: Match does not work on older versions of python (older than 3.10)
     # IF YOU ARE USING AN OLDER VERSION OF PYTHON, PLEASE FOLLOW QUICK TUTORIAL ON https://github.com/vitkozel/Guam-IDE/issues/6#issuecomment-1198041980
-    
+    #"""
     if session_PYTHO_VERSION > 3.10:
         match fileTypeIs:
             case "py":
