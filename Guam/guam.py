@@ -271,14 +271,16 @@ file_menu = Menu(menu, tearoff=0)
 edit_menu = Menu(menu, tearoff=0)
 run_menu = Menu(menu, tearoff=0)
 view_menu = Menu(menu, tearoff=0)
-theme_menu = Menu(menu, tearoff=0)
+#theme_menu = Menu(menu, tearoff=0)
+view_menu_thees = Menu(view_menu, tearoff=0)
 
 # add menu labels
 menu.add_cascade(label="File", menu=file_menu)
 menu.add_cascade(label="Edit", menu=edit_menu)
 menu.add_cascade(label="Debug", menu=run_menu)
 menu.add_cascade(label ="View", menu=view_menu)
-menu.add_cascade(label ="Theme", menu=theme_menu)
+#menu.add_cascade(label ="Theme", menu=theme_menu)
+view_menu.add_cascade(label ="Theme", menu=view_menu_thees)
 
 # add commands in flie menu
 file_menu.add_command(label="Open", accelerator="Ctrl+O", command=open_file)
@@ -345,8 +347,8 @@ def dark():
     output_window.config(fg="white", bg="#000000")
 
 # add commands to change themes
-theme_menu.add_command(label="light", command=light)
-theme_menu.add_command(label="dark", command=dark)
+view_menu_thees.add_command(label="light", command=light)
+view_menu_thees.add_command(label="dark", command=dark)
 
 # create output window to display output of written code
 if session_FILE_RUN_SUPPORT == 1:
