@@ -62,10 +62,10 @@ others_ISSUES_FILE_LOCATION = session_DIRECTORY_THISFOLDER + "issues.txt"
 window = Tk()
 if session_PLATFORM == "Windows": # if windows, set the window icon
     #window.iconbitmap(others_ICON_LOCATION)
-    window.iconphoto(True, tkinter.PhotoImage(file='/path/to/ico/icon.png'))
+    window.iconphoto(True, tkinter.PhotoImage(file=others_ICON_LOCATION))
     print(":tf:")
 else:
-    window.iconphoto(True, tkinter.PhotoImage(file='/path/to/ico/icon.png'))
+    window.iconphoto(True, tkinter.PhotoImage(file=others_ICON_LOCATION))
     #print("Skipping icon, the program will run without an icon (OS compatibility issues")
 print(session_DIRECTORY_THISFOLDER)
 print(others_ICON_LOCATION)
@@ -382,6 +382,7 @@ def check_file_type(file_filename):
 
     # COMPAIBILITY ISSUE: Match does not work on older versions of python (older than 3.10)
     # IF YOU ARE USING AN OLDER VERSION OF PYTHON, PLEASE FOLLOW QUICK TUTORIAL ON https://github.com/vitkozel/Guam-IDE/issues/6#issuecomment-1198041980
+    
     if session_PYTHO_VERSION > 3.10:
         match fileTypeIs:
             case "py":
