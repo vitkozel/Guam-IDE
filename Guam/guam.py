@@ -18,6 +18,7 @@ import webbrowser
 from numpy import character
 import os
 import sys
+from preferences import preferences
 
 # Options variables
 options_CHECK_FILE_CODING = 1
