@@ -14,11 +14,14 @@ class PreferencesApp:
         builder.add_from_file(PROJECT_UI)
         # Main widget
         self.mainwindow = builder.get_object("frame1", master)
+
+        self.CHECK_FILE_CODING = None
+        builder.import_variables(self, ["CHECK_FILE_CODING"])
+
         builder.connect_callbacks(self)
 
     def run(self):
         self.mainwindow.mainloop()
-
 
 if __name__ == "__main__":
     root = tk.Tk()
