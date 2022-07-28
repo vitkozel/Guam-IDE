@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import font
+import tkinter
 #import tkinter
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.scrolledtext import ScrolledText
@@ -58,10 +59,12 @@ others_ISSUES_FILE_LOCATION = session_DIRECTORY_THISFOLDER + "issues.txt"
 # create an instance for window
 window = Tk()
 if session_PLATFORM == "Windows": # if windows, set the window icon
-    window.iconbitmap(others_ICON_LOCATION)
+    #window.iconbitmap(others_ICON_LOCATION)
+    window.iconphoto(True, tkinter.PhotoImage(file='/path/to/ico/icon.png'))
     print(":tf:")
 else:
-    print("Skipping icon, the program will run without an icon (OS compatibility issues")
+    window.iconphoto(True, tkinter.PhotoImage(file='/path/to/ico/icon.png'))
+    #print("Skipping icon, the program will run without an icon (OS compatibility issues")
 print(session_DIRECTORY_THISFOLDER)
 print(others_ICON_LOCATION)
 
@@ -375,6 +378,7 @@ def check_file_type(file_filename):
 
     print("File type is: " + fileTypeIs)
 
+    # COMPAIBILITY ISSUE: Match does not work on older versions of python (older than 3.10)
     match fileTypeIs:
         case "py":
             session_FILE_TYPE = "python"
