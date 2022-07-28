@@ -10,8 +10,12 @@ import subprocess
 import chardet
 import glob
 from imageio import save
-
+import platform
+from os.path import exists
+import datetime
+import webbrowser
 from numpy import character
+import os
 
 
 options_CHECK_FILE_CODING = 1
@@ -41,15 +45,21 @@ global session_CURRENT_LEFT_STATUS
 session_CURRENT_LEFT_STATUS = "Not saved yet!"
 global session_IS_SAVED
 session_IS_SAVED = True
+session_PLATFORM = platform.system()
 
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
 others_ICON_LOCATION_FILE = "pigeon.ico"
 others_ICON_LOCATION = session_DIRECTORY_THISFOLDER + others_ICON_LOCATION_FILE
+others_ISSUES_FILE_LOCATION = session_DIRECTORY_THISFOLDER + "issues.txt"
 
 # create an instance for window
 window = Tk()
-window.iconbitmap(others_ICON_LOCATION)
+if session_PLATFORM == "Windows": # if windows, set the window icon
+    window.iconbitmap(others_ICON_LOCATION)
+    print(":tf:")
+else:
+    print("Skipping icon, the program will run without an icon (OS compatibility issues")
 print(session_DIRECTORY_THISFOLDER)
 print(others_ICON_LOCATION)
 
@@ -70,41 +80,19 @@ move_tab = font.measure(others_TAB_VALUE)
 editor.config(tabs = move_tab)
 file_path = ""
 
-# called when saving/opening a file to change the status bar
+
+# called when saving/opening a file to change the status bar and other variables
 def side_file_operation(side_operation_type):
     global session_FILE_TYPE_DISPLAY
     global session_CURRENT_LEFT_STATUS
     global chararcter
     global word
     global session_IS_SAVED
+    global file_path
+    global file_file
+    global file_filename
 
-    check_file_type()
-    session_IS_SAVED = True
-
-    session_CURRENT_LEFT_STATUS = session_FILE_TYPE_DISPLAY + "; " + session_FILE_CODING
-    special_left_status = session_CURRENT_LEFT_STATUS
-    if side_operation_type == "save" or "saveas":
-        special_left_status = session_CURRENT_LEFT_STATUS + " SAVED"     
-    status_bars.config(text = f"{special_left_status} \t\t\t\t\t\t characters: {chararcter} words: {word}")
-
-# function to open files
-def open_file(event=None):
-    global code, file_path
-    global session_FILE_TYPE
-    global session_FILE_RUN_SUPPORT
-    global session_DEFAULT_EXTENSION
-    global session_FILE_TYPE_DISPLAY
-    global options_CHECK_FILE_CODING
-    global session_FILE_CODING
-
-    #code = editor.get(1.0, END)
-    open_path = askopenfilename(filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
-    if open_path == "":
-        return
-    file_path = open_path
-
-    # checks if is the opening file supported
-    check_file_type()
+    print("side_operation_type: " + side_operation_type)
 
     # checks file coding
     if options_CHECK_FILE_CODING == 1:
@@ -116,6 +104,42 @@ def open_file(event=None):
     else:
         session_FILE_CODING = options_DEFAULT_FILE_CODING
         print("Skipping file coding check, the file will be opened with " + options_DEFAULT_FILE_CODING)    
+
+
+    file_file = file_path.split("/")
+    print(file_file)
+    file_filename = str(file_file[len(file_file) - 1])
+    print(file_filename)
+
+    if side_operation_type != "save":
+        check_file_type(file_filename)
+    
+
+    session_CURRENT_LEFT_STATUS = session_FILE_TYPE_DISPLAY + "; " + session_FILE_CODING
+    special_left_status = session_CURRENT_LEFT_STATUS
+    if side_operation_type == "save" or "saveas":
+        special_left_status = session_CURRENT_LEFT_STATUS + " SAVED"     
+    status_bars.config(text = f"{special_left_status} \t\t\t\t\t\t characters: {chararcter} words: {word}")    
+   
+    session_IS_SAVED = True
+    window.title(file_filename + " - Guam IDE")
+
+# function to open files
+def open_file(event=None):
+    global code, file_path
+    global session_FILE_TYPE
+    global session_FILE_RUN_SUPPORT
+    global session_DEFAULT_EXTENSION
+    global session_FILE_TYPE_DISPLAY
+    global options_CHECK_FILE_CODING
+    global session_FILE_CODING
+    global file_path
+
+    #code = editor.get(1.0, END)
+    open_path = askopenfilename(filetypes=[("Any File", "*"), ("Python File", "*.py"), ("VKode Script", "*.vkode"), ("Text File", "*.txt")])
+    if open_path == "":
+        return
+    file_path = open_path
 
     # finally opens the file
     with open(open_path, "r", encoding = session_FILE_CODING) as file:
@@ -159,7 +183,7 @@ if 1 == 1:
         global code, file_path
         output_window.insert(1.0, others_DEBUG_MESSAGE_PREFIX + "Checking file, please wait")
 
-        print(session_FILE_TYPE)
+        print("Running " + session_FILE_TYPE)
 
         # checks if the file is supported
         if session_FILE_RUN_SUPPORT == 1:
@@ -214,8 +238,10 @@ def close(event=None):
             print("Saving before exiting")
             save_file()
             window.destroy()
+            exit(0)
         elif move_window == False:
             window.destroy()
+            exit(0)
         else:
             return
 
@@ -334,8 +360,7 @@ def try_hide_debug():
     elif session_OUTPUT_WINDOW == 0:
         print("Output box already hidden.")
     
-def check_file_type():
-    global code, file_path
+def check_file_type(file_filename):
     global session_FILE_TYPE
     global session_FILE_RUN_SUPPORT
     global session_DEFAULT_EXTENSION
@@ -343,27 +368,59 @@ def check_file_type():
     global options_CHECK_FILE_CODING
     global session_FILE_CODING
 
-    if file_path.endswith(".py") or file_path.endswith(".vkode"):
-        print("Opening supported file")
-        if file_path.endswith(".py"):
+    fileTypeSplit = file_filename.split(".")
+    fileTypeIs = fileTypeSplit[-1]
+
+    print("File type is: " + fileTypeIs)
+
+    match fileTypeIs:
+        case "py":
             session_FILE_TYPE = "python"
             session_FILE_TYPE_DISPLAY = "Python script"
-        elif file_path.endswith(".vkode"):
+            session_FILE_RUN_SUPPORT = 1
+        case "vkode":
             session_FILE_TYPE = "vkode"
             session_FILE_TYPE_DISPLAY = "VKode script"
-        session_DEFAULT_EXTENSION = "." + session_FILE_TYPE
-        session_FILE_RUN_SUPPORT = 1
-        try_hide_debug()
-        force_show_debug()
-    elif file_path.endswith(".txt"): # if file is txt
-        print("Opening file without debug support")
-        session_FILE_TYPE_DISPLAY = "TXT Plain text file"
-        try_hide_debug()
-    else:
-        print("Opening unsupported file")
-        session_FILE_TYPE_DISPLAY = "UNSUPPORTED FILE"
-        try_hide_debug()
-        mb.showwarning("File not supported", "This file type is not supported. Guam will try to open it without a debug system.")
+            session_FILE_RUN_SUPPORT = 1
+        case "txt":
+            session_FILE_TYPE_DISPLAY = "TXT Plain text file"
+            session_FILE_RUN_SUPPORT = 0
+        case _:
+            session_FILE_TYPE = "unsupported"
+            session_FILE_TYPE_DISPLAY = "Unsupported file type"
+            window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", True)
 
+    try_hide_debug()
+    if session_FILE_RUN_SUPPORT == 1:
+        print("Opening supported file")
+        force_show_debug()
+        session_DEFAULT_EXTENSION = "." + session_FILE_TYPE
+
+    print("check_file_type results:\n session_FILE_TYPE: " + session_FILE_TYPE + "\n session_FILE_TYPE_DISPLAY: " + session_FILE_TYPE_DISPLAY + "\n session_FILE_RUN_SUPPORT: " + str(session_FILE_RUN_SUPPORT) + "\n session_DEFAULT_EXTENSION: " + session_DEFAULT_EXTENSION + "\n session_FILE_CODING: " + session_FILE_CODING)
+
+def window_error(title, message, openIssues): # function to display error windows
+    print("WARNING: " + title + ":\n " + message)
+    mb.showerror(title, message)
+
+    if openIssues:
+        print("Opening issues window")
+
+        if exists(others_ISSUES_FILE_LOCATION) == False:
+            print("Creating issues file")
+            isseFile = open(others_ISSUES_FILE_LOCATION, "w")
+            isseFile.write("Guam for " + session_PLATFORM + "\nThis file location: " + others_ISSUES_FILE_LOCATION + "\n\n\n")
+            isseFile.close()
+        
+        isseFile = open(others_ISSUES_FILE_LOCATION, "a")
+        isseFile.write("Bug ocurred at: " + str(datetime.datetime.now()) + "\n " + title + ":\n " + message + "\n " + session_FILE_TYPE + "\n " + session_FILE_TYPE_DISPLAY + "\n " + str(session_FILE_RUN_SUPPORT) + "\n " + session_DEFAULT_EXTENSION + "\n " + session_FILE_CODING + "\n\n")
+        isseFile.close()
+
+        if mb.askyesno('Please report issue', 'Bug report was saved to /issues.txt\nDo you wish to report this bug to the developer?', icon='question'):
+            print("Reporting issue")
+            webbrowser.open("https://github.com/vitkozel/Guam-IDE/issues", new=1, autoraise=True)
+            if session_PLATFORM == "Windows":
+                os.startfile(session_DIRECTORY_THISFOLDER)
+            elif session_PLATFORM == "Linux":
+                subprocess.call(('xdg-open ', others_ISSUES_FILE_LOCATION))
 
 window.mainloop()

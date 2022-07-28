@@ -2,12 +2,8 @@
 # This file is not meant to be touched.
 # Please don't change anything unless you know what you're doing.
 
-LOCAL_VERSION_BUILD: 0004
+LOCAL_VERSION_BUILD: 4
 LOCAL_VERSION_VERSION: "Alpha 0.00.003b"
+LOCAL_VERSION_DISTRIBUTION: "windowsnt-standalone"
 LOCAL_VERSION_ISALPHA: True
 INITIAL_SETUP: False
-
-# NOTE: If you're browsing via Github:
-# If you see INITIAL_SETUP on False even if you already opened Guam before,
-#   please change it to False before actually running it since you might get
-#   get some errors.

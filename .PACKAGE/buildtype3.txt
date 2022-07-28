@@ -1,0 +1,3 @@
+pyinstaller --noconfirm --onefile --windowed --icon "C:/Users/vitek/Documents/Guam-IDE/.PACKAGE/Guam/pigeon.ico" --no-embed-manifest --add-data "C:/Users/vitek/Documents/Guam-IDE/.PACKAGE/Guam/pigeon.png;." --add-data "C:/Users/vitek/Documents/Guam-IDE/.PACKAGE/Guam/preferences.yml;."  "C:/Users/vitek/Documents/Guam-IDE/.PACKAGE/Guam/guam.py"
+
+pyinstaller --noconfirm --onefile --windowed --no-embed-manifest --add-data "C:/Users/vitek/Documents/Guam-IDE/.PACKAGE/Guam/pigeon.png;." --add-data "C:/Users/vitek/Documents/Guam-IDE/.PACKAGE/Guam/preferences.yml;."  "C:/Users/vitek/Documents/Guam-IDE/.PACKAGE/Guam/guam.py"
