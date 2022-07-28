@@ -381,7 +381,7 @@ def check_file_type(file_filename):
     print("File type is: " + fileTypeIs)
 
     # COMPAIBILITY ISSUE: Match does not work on older versions of python (older than 3.10)
-    # IF YOU ARE USING AN OLDER VERSION OF PYTHON, PLEASE COMMENT OUT FOLLOWING LINES AND REMOVE COMMENT FROM LINES BELOW
+    # IF YOU ARE USING AN OLDER VERSION OF PYTHON, PLEASE FOLLOW QUICK TUTORIAL ON https://github.com/vitkozel/Guam-IDE/issues/6#issuecomment-1198041980
     if session_PYTHO_VERSION > 3.10:
         match fileTypeIs:
             case "py":
