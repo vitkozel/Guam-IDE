@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import font
-import tkinter
+#import tkinter
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.scrolledtext import ScrolledText
 from tkinter import messagebox as mb
@@ -17,7 +17,7 @@ import webbrowser
 from numpy import character
 import os
 
-
+# Options variables
 options_CHECK_FILE_CODING = 1
 options_DEFAULT_FILE_CODING = "utf-8"
 options_DISPLAY_FONT_TYPEFACE = "consolas"
@@ -26,6 +26,7 @@ options_DISPLAY_FONT_FONTSTYLE = "Bold"
 options_DISPLAY_FONT_FONTFACE = options_DISPLAY_FONT_TYPEFACE + " " + options_DISPLAY_FONT_SIZE + " "
 options_DISPLAY_DEBUG_SIZE = 6
 
+# Session variables
 global session_FILE_CODING
 session_FILE_CODING = "utf-8"
 global session_DEFAULT_EXTENSION
@@ -47,6 +48,7 @@ global session_IS_SAVED
 session_IS_SAVED = True
 session_PLATFORM = platform.system()
 
+# Other variables
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
 others_TAB_VALUE = "   "
 others_ICON_LOCATION_FILE = "pigeon.ico"
