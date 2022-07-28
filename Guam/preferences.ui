@@ -3,26 +3,76 @@
   <object class="ttk.Frame" id="frame1">
     <property name="height">400</property>
     <property name="width">600</property>
-    <layout manager="pack">
-      <property name="side">top</property>
+    <layout manager="place">
+      <property name="anchor">nw</property>
+      <property name="height">300</property>
+      <property name="relwidth">0.0</property>
+      <property name="width">600</property>
+      <property name="x">0</property>
+      <property name="y">0</property>
     </layout>
     <child>
-      <object class="ttk.Label" id="label1">
-        <property name="anchor">w</property>
+      <object class="ttk.Label" id="label3">
         <property name="font">TkHeadingFont</property>
         <property name="text" translatable="yes">Guam Preferences</property>
-        <layout manager="pack">
-          <property name="side">top</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">10</property>
+          <property name="y">7</property>
         </layout>
       </object>
     </child>
     <child>
-      <object class="ttk.Label" id="label2">
-        <property name="anchor">w</property>
-        <property name="justify">left</property>
+      <object class="ttk.Label" id="label4">
         <property name="text" translatable="yes">Auto scan for file encoding</property>
-        <layout manager="pack">
-          <property name="side">top</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">10</property>
+          <property name="y">50</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Checkbutton" id="checkbutton1">
+        <property name="compound">top</property>
+        <property name="offvalue">0</property>
+        <property name="onvalue">1</property>
+        <property name="text" translatable="yes">CHECK_FILE_CODING</property>
+        <property name="variable">int:CHECK_FILE_CODING</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">180</property>
+          <property name="y">50</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label5">
+        <property name="text" translatable="yes">Default file coding</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">10</property>
+          <property name="y">75</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="entry1">
+        <property name="text" translatable="yes">utf-8</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">180</property>
+          <property name="y">75</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label7">
+        <property name="text" translatable="yes">DEFAULT_FILE_CODING</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="x">330</property>
+          <property name="y">75</property>
         </layout>
       </object>
     </child>
