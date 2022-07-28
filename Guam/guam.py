@@ -276,7 +276,7 @@ theme_menu = Menu(menu, tearoff=0)
 # add menu labels
 menu.add_cascade(label="File", menu=file_menu)
 menu.add_cascade(label="Edit", menu=edit_menu)
-menu.add_cascade(label="Run", menu=run_menu)
+menu.add_cascade(label="Debug", menu=run_menu)
 menu.add_cascade(label ="View", menu=view_menu)
 menu.add_cascade(label ="Theme", menu=theme_menu)
 
@@ -292,6 +292,10 @@ file_menu.add_command(label="Exit", accelerator="Ctrl+W", command=close)
 edit_menu.add_command(label="Cut", command=cut_text) 
 edit_menu.add_command(label="Copy", command=copy_text)
 edit_menu.add_command(label="Paste", command=paste_text)
+edit_menu.add_separator() # Separator
+edit_menu.add_command(label="Preferences")
+
+# add commands in debug menu
 run_menu.add_command(label="Run", accelerator="F5", command=run)
 
 # function to display and hide status bar
@@ -382,7 +386,7 @@ def check_file_type(file_filename):
 
     # COMPAIBILITY ISSUE: Match does not work on older versions of python (older than 3.10)
     # IF YOU ARE USING AN OLDER VERSION OF PYTHON, PLEASE FOLLOW QUICK TUTORIAL ON https://github.com/vitkozel/Guam-IDE/issues/6#issuecomment-1198041980
-    #"""
+    """
     if session_PYTHO_VERSION > 3.10:
         match fileTypeIs:
             case "py":
@@ -433,7 +437,7 @@ def check_file_type(file_filename):
         session_FILE_TYPE = "unsupported"
         session_FILE_TYPE_DISPLAY = "Unsupported file type"
         window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", True)
-    """
+    #"""
 
 
     try_hide_debug()
