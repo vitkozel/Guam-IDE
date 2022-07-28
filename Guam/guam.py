@@ -17,6 +17,7 @@ import datetime
 import webbrowser
 from numpy import character
 import os
+import sys
 
 # Options variables
 options_CHECK_FILE_CODING = 1
@@ -48,6 +49,7 @@ session_CURRENT_LEFT_STATUS = "Not saved yet!"
 global session_IS_SAVED
 session_IS_SAVED = True
 session_PLATFORM = platform.system()
+session_PYTHO_VERSION = sys.version_info[0]
 
 # Other variables
 others_DEBUG_MESSAGE_PREFIX = "GUAM: "
@@ -379,22 +381,59 @@ def check_file_type(file_filename):
     print("File type is: " + fileTypeIs)
 
     # COMPAIBILITY ISSUE: Match does not work on older versions of python (older than 3.10)
-    match fileTypeIs:
-        case "py":
+    # IF YOU ARE USING AN OLDER VERSION OF PYTHON, PLEASE COMMENT OUT FOLLOWING LINES AND REMOVE COMMENT FROM LINES BELOW
+    if session_PYTHO_VERSION > 3.10:
+        match fileTypeIs:
+            case "py":
+                session_FILE_TYPE = "python"
+                session_FILE_TYPE_DISPLAY = "Python script"
+                session_FILE_RUN_SUPPORT = 1
+            case "vkode":
+                session_FILE_TYPE = "vkode"
+                session_FILE_TYPE_DISPLAY = "VKode script"
+                session_FILE_RUN_SUPPORT = 1
+            case "txt":
+                session_FILE_TYPE_DISPLAY = "TXT Plain text file"
+                session_FILE_RUN_SUPPORT = 0
+            case _:
+                session_FILE_TYPE = "unsupported"
+                session_FILE_TYPE_DISPLAY = "Unsupported file type"
+                window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", True)
+    else:
+        if fileTypeIs == "py":
             session_FILE_TYPE = "python"
             session_FILE_TYPE_DISPLAY = "Python script"
             session_FILE_RUN_SUPPORT = 1
-        case "vkode":
+        elif fileTypeIs == "vkode":
             session_FILE_TYPE = "vkode"
             session_FILE_TYPE_DISPLAY = "VKode script"
             session_FILE_RUN_SUPPORT = 1
-        case "txt":
+        elif fileTypeIs == "txt":
             session_FILE_TYPE_DISPLAY = "TXT Plain text file"
             session_FILE_RUN_SUPPORT = 0
-        case _:
+        else:
             session_FILE_TYPE = "unsupported"
             session_FILE_TYPE_DISPLAY = "Unsupported file type"
             window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", True)
+    # END OF COMMENT, remove comment below
+    """
+    if fileTypeIs == "py":
+        session_FILE_TYPE = "python"
+        session_FILE_TYPE_DISPLAY = "Python script"
+        session_FILE_RUN_SUPPORT = 1
+    elif fileTypeIs == "vkode":
+        session_FILE_TYPE = "vkode"
+        session_FILE_TYPE_DISPLAY = "VKode script"
+        session_FILE_RUN_SUPPORT = 1
+    elif fileTypeIs == "txt":
+        session_FILE_TYPE_DISPLAY = "TXT Plain text file"
+        session_FILE_RUN_SUPPORT = 0
+    else:
+        session_FILE_TYPE = "unsupported"
+        session_FILE_TYPE_DISPLAY = "Unsupported file type"
+        window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", True)
+    """
+
 
     try_hide_debug()
     if session_FILE_RUN_SUPPORT == 1:
@@ -418,7 +457,7 @@ def window_error(title, message, openIssues): # function to display error window
             isseFile.close()
         
         isseFile = open(others_ISSUES_FILE_LOCATION, "a")
-        isseFile.write("Bug ocurred at: " + str(datetime.datetime.now()) + "\n " + title + ":\n " + message + "\n " + session_FILE_TYPE + "\n " + session_FILE_TYPE_DISPLAY + "\n " + str(session_FILE_RUN_SUPPORT) + "\n " + session_DEFAULT_EXTENSION + "\n " + session_FILE_CODING + "\n\n")
+        isseFile.write("Bug ocurred at: " + str(datetime.datetime.now()) + "\n " + title + ":\n " + message + "\n " + session_FILE_TYPE + "\n " + session_FILE_TYPE_DISPLAY + "\n " + str(session_FILE_RUN_SUPPORT) + "\n " + session_DEFAULT_EXTENSION + "\n " + session_FILE_CODING + "\n Python version: " + session_PYTHO_VERSION + "\n\n")
         isseFile.close()
 
         if mb.askyesno('Please report issue', 'Bug report was saved to /issues.txt\nDo you wish to report this bug to the developer?', icon='question'):
