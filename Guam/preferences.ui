@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.2">
+  <object class="ttk.Frame" id="frame1">
+    <property name="height">400</property>
+    <property name="width">600</property>
+    <layout manager="pack">
+      <property name="side">top</property>
+    </layout>
+    <child>
+      <object class="ttk.Label" id="label1">
+        <property name="anchor">w</property>
+        <property name="font">TkHeadingFont</property>
+        <property name="text" translatable="yes">Guam Preferences</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label2">
+        <property name="anchor">w</property>
+        <property name="justify">left</property>
+        <property name="text" translatable="yes">Auto scan for file encoding</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>
