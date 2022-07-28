@@ -1,5 +1,5 @@
 # Guam-IDE
-> Guam-IDE is a Lightweight IDE and text editor for Python, VKode, HTML and others.
+Guam-IDE is a Lightweight IDE and text editor for Python, VKode, HTML and others.
 ## Repository Hierarchy
 
 `Guam/` – The main Guam folder<br>
