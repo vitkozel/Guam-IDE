@@ -1,4 +1,4 @@
-name: Guam
+name: Guam_pylint
 
 on: [push]
 
