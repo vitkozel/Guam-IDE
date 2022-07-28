@@ -1,3 +1,7 @@
+# Guam is not production-ready yet
+
+We're currently in Alpha. Guam is not ready for regural use yet.
+
 # Guam-IDE
 Guam-IDE is a Lightweight IDE and text editor for Python, VKode, HTML and others.
 ## Repository Hierarchy
