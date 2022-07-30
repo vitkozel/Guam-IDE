@@ -15,7 +15,7 @@ def palette():
         Update(data)
 
 
-    def Update(data):
+    def Update(data): # Update function
         listbox.delete(0, 'end')
         # put new data
         for item in data:
