@@ -18,7 +18,8 @@ import webbrowser
 from numpy import character
 import os
 import sys
-from preferences import preferences
+#from preferences import preferences
+import palette
 
 # Options variables
 options_CHECK_FILE_CODING = 1
@@ -266,6 +267,10 @@ def copy_text(event=None):
 # define function to paste the previously copied text
 def paste_text(event=None):
         editor.event_generate(("<<Paste>>"))
+
+def command_palette(event=None):
+    
+    palette.main()
      
 # create menus
 file_menu = Menu(menu, tearoff=0)
@@ -296,6 +301,7 @@ edit_menu.add_command(label="Cut", command=cut_text)
 edit_menu.add_command(label="Copy", command=copy_text)
 edit_menu.add_command(label="Paste", command=paste_text)
 edit_menu.add_separator() # Separator
+edit_menu.add_command(label="Command Palette", command=command_palette)
 edit_menu.add_command(label="Preferences")
 
 # add commands in debug menu
