@@ -356,7 +356,7 @@ if session_FILE_RUN_SUPPORT == 1:
     output_window = ScrolledText(window, height = options_DISPLAY_DEBUG_SIZE)
     output_window.pack(fill = BOTH, expand = 1)
 
-# alternative way (when called)
+# alternative way (when called) to run the code
 def force_show_debug():
     global output_window
     global session_OUTPUT_WINDOW
