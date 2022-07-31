@@ -18,6 +18,7 @@ import webbrowser
 from numpy import character
 import os
 import sys
+import palette
 import preferences
 
 # Options variables
@@ -266,7 +267,13 @@ def copy_text(event=None):
 # define function to paste the previously copied text
 def paste_text(event=None):
         editor.event_generate(("<<Paste>>"))
-     
+
+def command_palette(event=None):
+    palette_result = palette.main()
+    # TODO: Refactor this to switch (not if statements) (I'm running old python version)
+    if palette_result == "Save":
+        save_file()
+         
 # create menus
 file_menu = Menu(menu, tearoff=0)
 edit_menu = Menu(menu, tearoff=0)
@@ -296,6 +303,7 @@ edit_menu.add_command(label="Cut", command=cut_text)
 edit_menu.add_command(label="Copy", command=copy_text)
 edit_menu.add_command(label="Paste", command=paste_text)
 edit_menu.add_separator() # Separator
+edit_menu.add_command(label="Command Palette", command=command_palette)
 edit_menu.add_command(label="Preferences")
 
 # add commands in debug menu
