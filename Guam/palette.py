@@ -1,9 +1,11 @@
 from tkinter import *
 
+global result
+
 def palette():
     def Scankey(event):
         val = event.widget.get()
-        print(val)
+        print(" Current input: " + val)
 
         if val == '':
             data = list
@@ -13,7 +15,7 @@ def palette():
                 if val.lower() in item.lower():
                     data.append(item)				
         Update(data)
-
+        #print(data)
 
     def Update(data): # Update function
         listbox.delete(0, 'end')
@@ -21,6 +23,10 @@ def palette():
         for item in data:
             listbox.insert('end', item)
 
+    def callback(event):
+        callback = listbox.get(listbox.curselection())
+        print(" Palette selected: " + callback)
+        return callback
 
 
     list = ('Change theme','DISPLAY_DEBUG_SIZE','DISPLAY_FONT_SIZE',
@@ -40,6 +46,14 @@ def palette():
     listbox.pack()
     Update(list)
 
+    callback = listbox.bind("<<ListboxSelect>>", callback)
+    #print(" Palette selected: " + callback)
+
     ws.mainloop()
 
-palette()
+def main():
+    palette()
+    return result
+
+#main()
+#palette()
