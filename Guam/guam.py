@@ -1,16 +1,19 @@
-print("guam awake !")
+print("guam awake")
 from tkinter import *
-import multiprocessing
+import threading
 
 def splash_show():
     print("Loading Guam, please wait")
     global splash_root
     splash_root = Tk()
     splash_root.geometry("200x200")
-    splash_label = Label(splash_root,text="Guam init",font=12)
+    splash_label = Label(splash_root,text="Guam init",font=18)
     splash_label.pack()
     splash_root.mainloop()
-splash_process = multiprocessing.Process(target=splash_show)
+    import time
+    time.sleep(10)
+    exit()
+splash_process = threading.Thread(name='Guam Splash screen', target=splash_show)
 splash_process.start()
 
 
@@ -265,22 +268,15 @@ def editor():
         if session_IS_SAVED == True:
             print("Closing")
             window.destroy()
-            splash_root.deiconify()
-            splash_root.destroy()
             exit(0)
         else:
             move_window = mb.askyesnocancel(title="File not saved", message="Do you want to save this file before exiting?")
             if move_window == True:
                 print("Saving before exiting")
                 save_file()
-                window.destroy()
-                splash_root.destroy()
                 exit(0)
             elif move_window == False:
                 print("Not saving and exiting")
-                window.destroy()
-                
-                splash_root.destroy()
                 exit(0)
             else:
                 return
@@ -516,8 +512,7 @@ def editor():
                     subprocess.call(('xdg-open ', others_ISSUES_FILE_LOCATION))
 
     print(" Destroying splash window")
-    #splash_root.withdraw()
-    splash_process.kill()
+    splash_root.withdraw()
     window.mainloop()
 
 #splash_root.withdraw()
