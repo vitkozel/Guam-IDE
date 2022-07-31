@@ -1,16 +1,16 @@
-print("guam awake")
+print("guam awake !")
 from tkinter import *
-import threading
+import multiprocessing
 
 def splash_show():
     print("Loading Guam, please wait")
     global splash_root
     splash_root = Tk()
     splash_root.geometry("200x200")
-    splash_label = Label(splash_root,text="Guam init",font=18)
+    splash_label = Label(splash_root,text="Guam init",font=12)
     splash_label.pack()
     splash_root.mainloop()
-splash_process = threading.Thread(name='Guam Splash screen', target=splash_show)
+splash_process = multiprocessing.Process(target=splash_show)
 splash_process.start()
 
 
@@ -516,7 +516,8 @@ def editor():
                     subprocess.call(('xdg-open ', others_ISSUES_FILE_LOCATION))
 
     print(" Destroying splash window")
-    splash_root.withdraw()
+    #splash_root.withdraw()
+    splash_process.kill()
     window.mainloop()
 
 #splash_root.withdraw()
