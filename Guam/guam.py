@@ -269,9 +269,11 @@ def paste_text(event=None):
         editor.event_generate(("<<Paste>>"))
 
 def command_palette(event=None):
-    
-    palette.main()
-     
+    palette_result = palette.main()
+    # TODO: Refactor this to switch (not if statements) (I'm running old python version)
+    if palette_result == "Save":
+        save_file()
+         
 # create menus
 file_menu = Menu(menu, tearoff=0)
 edit_menu = Menu(menu, tearoff=0)
