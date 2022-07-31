@@ -339,8 +339,8 @@ editor.bind("<<Modified>>",change_word)
 
 # function for light mode window
 def light():
-    editor.config(bg="white")
-    output_window.config(bg="white")
+    editor.config(fg="black", bg="white")
+    output_window.config(fg="black", bg="white")
 
 # function for dark mode window
 def dark():
