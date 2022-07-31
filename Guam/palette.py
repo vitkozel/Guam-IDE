@@ -1,9 +1,7 @@
 from tkinter import *
 
-global result
-
 def palette():
-    #global result
+    global pass_f
     def Scankey(event):
         val = event.widget.get()
         print(' Current input: "' + val + '"')
@@ -25,12 +23,10 @@ def palette():
             listbox.insert('end', item)
 
     def callback(event):
-        global result
+        global callback
         callback = listbox.get(listbox.curselection())
         print(" Palette selected: " + callback)
-        result = callback
-        return callback
-
+        ws.destroy()
 
     list = ('Change theme','DISPLAY_DEBUG_SIZE','DISPLAY_FONT_SIZE',
         'DISPLAY_FONT_TYPEFACE','DEFAULT_FILE_CODING',
@@ -50,14 +46,14 @@ def palette():
     Update(list)
 
     callback = listbox.bind("<<ListboxSelect>>", callback)
-    #print(" Palette selected: " + callback)
 
     ws.mainloop()
 
 def main():
-    global result
-    print(result)
-    return result
+    global callback
+    palette()
+    print("Returning " + callback)
+    return callback
 
 main()
 #palette()
