@@ -3,9 +3,10 @@ from tkinter import *
 global result
 
 def palette():
+    #global result
     def Scankey(event):
         val = event.widget.get()
-        print(" Current input: " + val)
+        print(' Current input: "' + val + '"')
 
         if val == '':
             data = list
@@ -24,8 +25,10 @@ def palette():
             listbox.insert('end', item)
 
     def callback(event):
+        global result
         callback = listbox.get(listbox.curselection())
         print(" Palette selected: " + callback)
+        result = callback
         return callback
 
 
@@ -52,8 +55,10 @@ def palette():
     ws.mainloop()
 
 def main():
+    global result
     palette()
+    print(result)
     return result
 
-#main()
+main()
 #palette()
