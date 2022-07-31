@@ -18,7 +18,7 @@ import webbrowser
 from numpy import character
 import os
 import sys
-from preferences import preferences
+import preferences
 
 # Options variables
 options_CHECK_FILE_CODING = 1
@@ -439,7 +439,7 @@ def check_file_type(file_filename):
     else:
         session_FILE_TYPE = "unsupported"
         session_FILE_TYPE_DISPLAY = "Unsupported file type"
-        window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", True)
+        window_error("File not supported", "This file type is not supported. Guam will try to open it without a debug system.", False)
     #"""
 
 
