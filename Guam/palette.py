@@ -29,14 +29,14 @@ def palette():
 
     ws = Tk()
     ws.title('Guam Command Palette')
-    ws.geometry('300x300')
+    ws.geometry('300x195')
 
-    entry = Entry(ws)
+    entry = Entry(ws, width = 300)
     entry.pack()
     entry.bind('<KeyRelease>', Scankey)
 
 
-    listbox = Listbox(ws)
+    listbox = Listbox(ws, width = 300)
     listbox.pack()
     Update(list)
 
