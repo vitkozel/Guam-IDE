@@ -1,19 +1,22 @@
 print("guam awake")
 from tkinter import *
 import threading
+import time
 
-def splash_show():
-    print("Loading Guam, please wait")
-    global splash_root
+def splash_manager(task):
     splash_root = Tk()
-    splash_root.geometry("200x200")
-    splash_label = Label(splash_root,text="Guam init",font=18)
-    splash_label.pack()
+    if task == "exit":
+        print("splash_show(exit) exit")
+        #splash_root.destroy()
+        splash_root.withdraw()
+    else:
+        print("Loading Guam, please wait")
+        #global splash_root
+        splash_root.geometry("200x200")
+        splash_label = Label(splash_root,text="Guam init",font=18)
+        splash_label.pack()
     splash_root.mainloop()
-    import time
-    time.sleep(10)
-    exit()
-splash_process = threading.Thread(name='Guam Splash screen', target=splash_show)
+splash_process = threading.Thread(name='Guam Splash screen', target=splash_manager, args=("o"))
 splash_process.start()
 
 
@@ -512,7 +515,7 @@ def editor():
                     subprocess.call(('xdg-open ', others_ISSUES_FILE_LOCATION))
 
     print(" Destroying splash window")
-    splash_root.withdraw()
+    splash_manager("exit")
     window.mainloop()
 
 #splash_root.withdraw()
